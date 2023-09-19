@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import psycopg2
 import configparser
@@ -20,6 +20,7 @@ port = config.get('db', 'port')
 user = config.get('db','user')
 passwd = config.get('db','passwd')
 auto_db = config.get('db','auto_db')
+DATAFILE_DIR = config.get('datafile','location')
 
 app = Flask(__name__)
 CORS(app)
@@ -77,6 +78,14 @@ def get_cars():
         return jsonify(optimized_data)
     except Exception as e:
         return str(e), 500
+
+@app.route('/api/get_json', methods=['GET'])
+def serve_json():
+    if DATAFILE_DIR:
+        file_path = os.path.join(DATAFILE_DIR, 'output.json')
+        return send_file(file_path, mimetype='application/json')
+    else:
+        return "Datafile location not found.", 500
 
 if __name__ == '__main__':
     app.run()
