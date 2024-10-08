@@ -35,15 +35,30 @@ def get_cars():
             user=user,
             password=passwd)
         cursor = conn.cursor()
-        cursor.execute('SELECT vin, "Model Year" AS model_year, "Make" AS make, "Model" AS model, '
-                       'CASE WHEN "Trim" = \'Not Applicable\' AND "Series" = \'Not Applicable\' THEN NULL '
-                       'ELSE TRIM(CONCAT(CASE WHEN "Series" = \'Not Applicable\' THEN \'\' ELSE "Series" END, \' \', '
-                       'CASE WHEN "Trim" = \'Not Applicable\' THEN \'\' ELSE "Trim" END)) '
-                       'END AS series_trim, auction_date, lot_number, '
-                       'state, lienholder_name, borough, location_order '
-                       'FROM v_auction_list '
+        cursor.execute('SELECT '
+                       'vin, '
+                       'model_year, '
+                       'make, '
+                       'model,'
+                       'trim_level, '
+                       'series, '
+                       'body_class,'
+                       'drive_type,'
+                       'cylinders,'
+                       'displacement,'
+                       'fuel_type,'
+                       'engine_configuration,'
+                       'base_price,'
+                       'transmission,'
+                       'auction_date, '
+                       'lot_number, '
+                       'state, '
+                       'lienholder_name, '
+                       'borough, '
+                       'location_order '
+                       'FROM v_auction_list_2 '
                        'WHERE auction_date >= CURRENT_DATE '
-                       'ORDER BY auction_date, borough, location_order , lot_number;')
+                       'ORDER BY auction_date,borough, location_order , lot_number;')
 
         columns = [x[0] for x in cursor.description]
         rows = cursor.fetchall()
