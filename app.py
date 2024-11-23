@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import psycopg2
 import configparser
+from urllib.parse import quote_plus
 from collections import defaultdict
 from flask_compress import Compress
 import os
@@ -18,7 +19,7 @@ config.read(config_path)
 host = config.get('db','host')
 port = config.get('db', 'port')
 user = config.get('db','user')
-passwd = config.get('db','passwd')
+passwd = quote_plus(config.get('postgres', 'passwd'))
 auto_db = config.get('db','auto_db')
 DATAFILE_DIR = config.get('datafile','location')
 
