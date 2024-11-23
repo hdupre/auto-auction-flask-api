@@ -18,7 +18,7 @@ config.read(config_path)
 host = config.get('db','host')
 port = config.get('db', 'port')
 user = config.get('db','user')
-passwd = config.get('postgres', 'passwd')
+passwd = config.get('db', 'passwd')
 auto_db = config.get('db','auto_db')
 DATAFILE_DIR = config.get('datafile','location')
 
